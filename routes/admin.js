@@ -1,13 +1,19 @@
 const path = require('path')
-const rootDirectory = require('../utils/path')
 const express = require('express')
+const rootDir = require('../utils/path')
 const router = express.Router()
 
 const products = []
 
 // /admin/add-product => GET
 router.get('/add-product', (req, res, next) => {
-  res.sendFile(path.join(rootDirectory, 'views', 'add-product.html'))
+  res.render('add-product', {
+    pageTitle: 'Add Product',
+    path: '/admin/add-product',
+    formsCSS: true,
+    productCSS: true,
+    activeAddProduct: true,
+  })
 })
 
 // /admin/add-product => POST
