@@ -1,1 +1,1 @@
-[{"title":"book"},{"title":"um novo livro"}]
+[{"title":"book","imageUrl":"https://s.calendarr.com/upload/datas/li/vr/livro_c.jpg","description":"a simple book","price":"20"}]
