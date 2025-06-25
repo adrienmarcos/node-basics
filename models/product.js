@@ -6,9 +6,16 @@ const p = path.join(path.dirname(require.main.filename), 'data', 'products.txt')
 const getProductsFromFile = callback => {
   fs.readFile(p, (err, fileContent) => {
     if (err) {
-      callback([])
-    } else {
-      callback(JSON.parse(fileContent))
+      console.error('Erro ao ler o arquivo:', err)
+      return callback([])
+    }
+
+    try {
+      const data = fileContent.length === 0 ? [] : JSON.parse(fileContent)
+      return callback(data)
+    } catch (error) {
+      console.error('Erro ao fazer parse do arquivo:', error)
+      return callback([])
     }
   })
 }
@@ -26,7 +33,10 @@ module.exports = class Product {
     getProductsFromFile(products => {
       products.push(this)
       fs.writeFile(p, JSON.stringify(products), err => {
-        console.log(err)
+        if (err) {
+          return console.error('Erro ao salvar o produto', err)
+        }
+        console.log('Produto salvo com sucesso')
       })
     })
   }
@@ -38,7 +48,7 @@ module.exports = class Product {
   static find(id, callback) {
     getProductsFromFile(products => {
       const product = products.find(product => product.id === id)
-      callback(product)
+      return callback(product)
     })
   }
 }
